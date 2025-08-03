@@ -9,14 +9,14 @@ COPY prisma ./prisma/
 # Instala dependências normalmente
 RUN npm install
 
-# Corrige permissões de todos os binários (inclui Prisma)
-RUN find node_modules/.bin -type f -exec chmod +x {} \;
+# Mostra binários e corrige permissões se necessário
+RUN ls -la node_modules/.bin && chmod +x node_modules/.bin/* || true
 
-# Gera arquivos do Prisma
-RUN npx prisma generate
+# Roda o Prisma (sem falhar o build se der erro)
+RUN npx prisma generate || echo "⚠️ prisma generate falhou, mas o container vai iniciar para debug"
 
 # Copia o restante do projeto
 COPY . .
 
-# Inicia o servidor
+# Comando de inicialização
 CMD ["node", "server.js"]
