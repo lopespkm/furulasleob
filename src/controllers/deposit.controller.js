@@ -20,7 +20,7 @@ class DepositController {
         });
       }
 
-      if (amount < 1) {
+      if (amount <1) {
         return res.status(400).json({
           success: false,
           message: 'Valor mínimo para depósito é R$ 1,00'
